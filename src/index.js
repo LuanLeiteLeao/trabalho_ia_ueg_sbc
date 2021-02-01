@@ -1,3 +1,6 @@
+// import { database } from "./dataBase.js"
+
+// console.log(database)
 const dadosDoencas = [{
         regra: 1,
         padrao: ["dor de garganta", "tosse com catarro"],
@@ -25,38 +28,67 @@ const dadosDoencas = [{
     },
 ];
 
-const entrada = "dor de cabeça manchas avermelhadas catarro inchaço facial"
+const entrada = ["dor de cabeça", "manchas avermelhadas", "catarro", "inchaço facial"]
 
+const desparaRegra = (listaDeConflitos, entrada, dadosDoencas) => {
+    var regra = listaDeConflitos[0].doenca
+        // var doenca = dadosDoencas[regra]
+
+
+
+    regra.padrao.map(padrao => {
+        entrada.splice(entrada.indexOf(padrao), 1);
+    })
+
+    entrada.unshift(regra.acao)
+
+    return entrada
+
+}
 
 const main = () => {
 
+    while (true) {
+        let listaDeConflitos = []
 
-    let listaDeConflitos = []
 
-    dadosDoencas.map(doenca => {
 
-        // retorna uma lista boolean com os padroes achados, caso ache um padrão 
-        const testPadrao = doenca.padrao.map(padrao => {
-            return entrada.includes(padrao)
-        })
+        dadosDoencas.map(doenca => {
 
-        //procura na lista se há uma posição falsa,
-        //  caso não ache adiciona na lista de conflitos
-        // como um  padrão valido
-        if (testPadrao.indexOf(false)) {
-            listaDeConflitos.push({
-                regra: doenca.regra,
-                status: testPadrao
+            // retorna uma lista de conflitos, com os padrões que foram achados
+            const testPadrao = doenca.padrao.map(padrao => {
+                return entrada.includes(padrao)
             })
 
+            //procura na lista se há uma posição falsa,
+            //  caso não ache adiciona na lista de conflitos
+            // como um  padrão valido
+            if (testPadrao.indexOf(false)) {
+                listaDeConflitos.push({
+                    doenca
+                })
+
+            }
+
+
+
+        })
+
+
+        if (listaDeConflitos.length > 0) {
+
+            desparaRegra(listaDeConflitos, entrada, dadosDoencas)
+        } else {
+
+            break
         }
+    }
 
 
 
-    })
 
+    console.log(entrada)
 
-    console.log(listaDeConflitos)
 
 
 }
