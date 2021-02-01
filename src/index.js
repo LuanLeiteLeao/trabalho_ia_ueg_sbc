@@ -5,7 +5,7 @@ import { database, entrada } from "./dataBase.js"
 // esta funcao recebe uma lista de comflitos e a entrada
 // dentre a lista de conflitos é selecionado o primeiro da lista
 // todos os padrões são subistitudos por sua ação respectiva 
-const desparaRegra = (listaDeConflitos, entrada) => {
+const disparaRegra = (listaDeConflitos, entrada) => {
     // seleciona o primeiro da lista
     var regra = listaDeConflitos[0].data
 
@@ -48,7 +48,7 @@ const main = () => {
         // é desparada uma regra
         if (listaDeConflitos.length > 0) {
 
-            desparaRegra(listaDeConflitos, entrada)
+            disparaRegra(listaDeConflitos, entrada)
         }
         // caso esta lista seja vazia, que dizer que não foi encontrado nem um padrão e assim se encerra
         // o loop com o break
