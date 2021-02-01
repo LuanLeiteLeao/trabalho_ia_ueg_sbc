@@ -1,47 +1,21 @@
-// import { database } from "./dataBase.js"
+import { database, entrada } from "./dataBase.js"
 
-// console.log(database)
-const dadosDoencas = [{
-        regra: 1,
-        padrao: ["dor de garganta", "tosse com catarro"],
-        acao: "gripe",
-    },
-    {
-        regra: 2,
-        padrao: ["dor de cabeça", "manchas avermelhadas"],
-        acao: "dengue",
-    },
-    {
-        regra: 3,
-        padrao: ["palidez", "unhas quebradiças"],
-        acao: "anemia",
-    },
-    {
-        regra: 4,
-        padrao: ["formigamento", "dor de cabeça"],
-        acao: "avc",
-    },
-    {
-        regra: 5,
-        padrao: ["catarro", "inchaço facial"],
-        acao: "sinusite",
-    },
-];
+// const entrada = ["dor de cabeça", "manchas avermelhadas", "catarro", "inchaço facial"]
 
-const entrada = ["dor de cabeça", "manchas avermelhadas", "catarro", "inchaço facial"]
+// esta funcao recebe uma lista de comflitos e a entrada
+// dentre a lista de conflitos é selecionado o primeiro da lista
+// todos os padrões são subistitudos por sua ação respectiva 
+const desparaRegra = (listaDeConflitos, entrada) => {
+    // seleciona o primeiro da lista
+    var regra = listaDeConflitos[0].data
 
-const desparaRegra = (listaDeConflitos, entrada, dadosDoencas) => {
-    var regra = listaDeConflitos[0].doenca
-        // var doenca = dadosDoencas[regra]
-
-
-
+    // um loop é rodado para remover todos os padrões da lista
     regra.padrao.map(padrao => {
-        entrada.splice(entrada.indexOf(padrao), 1);
-    })
-
+            entrada.splice(entrada.indexOf(padrao), 1);
+        })
+        // depois que os padrões são removidos é enserido a ação que os padrões representava
     entrada.unshift(regra.acao)
-
+        // retorna a lista modificada 
     return entrada
 
 }
@@ -53,32 +27,32 @@ const main = () => {
 
 
 
-        dadosDoencas.map(doenca => {
+        database.map(data => {
 
-            // retorna uma lista de conflitos, com os padrões que foram achados
-            const testPadrao = doenca.padrao.map(padrao => {
+            //retorna uma lista boleana com resultada da busca dos padroes
+            const testPadrao = data.padrao.map(padrao => {
                 return entrada.includes(padrao)
             })
 
             //procura na lista se há uma posição falsa,
-            //  caso não ache adiciona na lista de conflitos
-            // como um  padrão valido
-            if (testPadrao.indexOf(false)) {
+            //caso não ache significa que a lista não existe nem um teste falso, logo ela é valida 
+            //adiciona na lista de conflitos como um  padrão valido
+            if (!testPadrao.includes(false)) {
                 listaDeConflitos.push({
-                    doenca
+                    data
                 })
-
             }
-
-
-
         })
 
-
+        // caso tenha chegado no final de um loop e a lista de conflitos não menor que zero ou vazia
+        // é desparada uma regra
         if (listaDeConflitos.length > 0) {
 
-            desparaRegra(listaDeConflitos, entrada, dadosDoencas)
-        } else {
+            desparaRegra(listaDeConflitos, entrada)
+        }
+        // caso esta lista seja vazia, que dizer que não foi encontrado nem um padrão e assim se encerra
+        // o loop com o break
+        else {
 
             break
         }
